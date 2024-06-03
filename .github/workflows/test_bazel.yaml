@@ -68,7 +68,7 @@ jobs:
     - name: Bazel Setup
       uses: jwlawson/actions-setup-bazel@v2
       with:
-        bazel-version: '6'
+        bazel-version: 'latest'
 
     - name: Checkout
       uses: actions/checkout@v4
@@ -92,6 +92,10 @@ jobs:
         --combined_report=lcov
         --
         //...
+
+    - name: Strip Branch Coverage
+      # Bazel 7 generates branch coverage, but we prefer line coverage reports.
+      run: sed -i '/^BR/d' bazel-out/_coverage/_coverage_report.dat
 
     - name: Coveralls
       uses: coverallsapp/github-action@master

@@ -185,21 +185,37 @@ def _run_sxpb2json(ctx, sxpb_file, json_file):
   )
   return [json_file]
 
-def _run_sxproto2textproto(ctx, sxproto_file, textproto_file):
+def _run_sxpb2txtpb(ctx, sxproto_file, textproto_file):
   """Translate .sxproto file to .txtpb file."""
   args = ctx.actions.args()
   args.add_joined(["stdin=open_readonly", sxproto_file], join_with = ":")
   args.add_joined(["stdout=open_writeonly", textproto_file], join_with = ":")
   args.add("--")
-  args.add(ctx.executable._sxproto2textproto)
+  args.add(ctx.executable._sxpb2txtpb)
   ctx.actions.run(
       executable = ctx.executable._fildespawn,
       arguments = [args],
       inputs = [sxproto_file],
       outputs = [textproto_file],
-      tools = [ctx.executable._sxproto2textproto],
+      tools = [ctx.executable._sxpb2txtpb],
   )
   return [textproto_file]
+
+def _run_sxpb2yaml(ctx, sxpb_file, yaml_file):
+  """Translate .sxpb file to .json file."""
+  args = ctx.actions.args()
+  args.add_joined(["stdin=open_readonly", sxpb_file], join_with = ":")
+  args.add_joined(["stdout=open_writeonly", yaml_file], join_with = ":")
+  args.add("--")
+  args.add(ctx.executable._sxpb2yaml)
+  ctx.actions.run(
+      executable = ctx.executable._fildespawn,
+      arguments = [args],
+      inputs = [sxpb_file],
+      outputs = [yaml_file],
+      tools = [ctx.executable._sxpb2yaml],
+  )
+  return [yaml_file]
 
 
 def _sxproto_data_impl(ctx):
@@ -209,7 +225,7 @@ def _sxproto_data_impl(ctx):
 
   textproto_file = None
   if ctx.outputs.out_textproto:
-    outfiles += _run_sxproto2textproto(
+    outfiles += _run_sxpb2txtpb(
         ctx, ctx.file.src, ctx.outputs.out_textproto)
     _run_protobuf_transcode(
         ctx, ctx.executable._textproto2binaryproto,
@@ -230,6 +246,10 @@ def _sxproto_data_impl(ctx):
         ctx, ctx.executable._binaryproto2json_camelcase,
         binaryproto_file, ctx.outputs.out_json_camelcase,
         ctx.attr.proto_message, descriptor_set_depset)
+
+  if ctx.outputs.out_yaml:
+    outfiles += _run_sxpb2yaml(
+        ctx, ctx.file.src, ctx.outputs.out_yaml)
 
   return DefaultInfo(
       files = depset([binaryproto_file]),
@@ -255,6 +275,10 @@ sxproto_data = rule(
             mandatory = False,
             doc = "The .json file to write with camelCase fields.",
         ),
+        "out_yaml": attr.output(
+            mandatory = False,
+            doc = "The .yaml file to write.",
+        ),
         "_fildespawn": attr.label(
             default = Label("@fildesh//tool:fildespawn"),
             allow_single_file = True,
@@ -273,8 +297,14 @@ sxproto_data = rule(
             executable = True,
             cfg = "exec",
         ),
-        "_sxproto2textproto": attr.label(
+        "_sxpb2txtpb": attr.label(
             default = Label("//tool:sxpb2txtpb"),
+            allow_single_file = True,
+            executable = True,
+            cfg = "exec",
+        ),
+        "_sxpb2yaml": attr.label(
+            default = Label("//tool:sxpb2yaml"),
             allow_single_file = True,
             executable = True,
             cfg = "exec",

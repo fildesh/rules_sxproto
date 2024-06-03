@@ -51,6 +51,11 @@ alias(
 )
 
 alias(
+    name = "sxpb2yaml",
+    actual = "@fildesh//tool:sxpb2yaml",
+)
+
+alias(
     name = "textproto2binaryproto",
     actual = "//src:textproto2binaryproto",
 )

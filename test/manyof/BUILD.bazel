@@ -1,3 +1,4 @@
+load("@fildesh//tool/bazel:cmptxt_test.bzl", "cmptxt_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load(
     "//sxproto:defs.bzl",
@@ -18,6 +19,7 @@ sxproto_data(
     src = "boolexpr.sxpb",
     out_json = "boolexpr_sxproto_data.json",
     out_textproto = "boolexpr_sxproto_data.txtpb",
+    out_yaml = "boolexpr_sxproto_data.yaml",
     proto_deps = [":boolexpr_proto"],
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
     testonly = 1,
@@ -122,4 +124,12 @@ protobuf_equality_test(
     ],
     proto_deps = [":boolexpr_proto"],
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
+)
+
+cmptxt_test(
+    name = "boolexpr_data_yaml_equality_test",
+    srcs = [
+        ":boolexpr.yaml",
+        "boolexpr_sxproto_data.yaml",
+    ],
 )

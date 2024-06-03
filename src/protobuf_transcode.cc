@@ -48,7 +48,7 @@ new_message_from_json_content(
     return nullptr;
   }
 
-  google::protobuf::util::Status status = JsonStringToMessage(
+  auto status = JsonStringToMessage(
       in_content, message.get());
   if (!status.ok()) {
     std::cerr << "Error parsing json." << std::endl;
@@ -128,7 +128,7 @@ write_message_to_json_file(
   std::string out_content;
   JsonPrintOptions json_options;
   json_options.preserve_proto_field_names = !camelcase;
-  google::protobuf::util::Status status = MessageToJsonString(
+  auto status = MessageToJsonString(
       message, &out_content, json_options);
   if (!status.ok()) {
     std::cerr << "Error encoding json." << std::endl;
