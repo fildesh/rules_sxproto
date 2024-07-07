@@ -1,5 +1,4 @@
 # Bzlmod for dependencies.
-common --experimental_enable_bzlmod
 common --registry=https://raw.githubusercontent.com/rendezqueue/rendezqueue_bazel_registry/trunk
 common --registry=https://raw.githubusercontent.com/bazelbuild/bazel-central-registry/main
 

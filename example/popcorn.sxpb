@@ -1,13 +1,15 @@
-(name "popcorn")
+(name popcorn)
 (amount 3)
-(variety true)
+(variety +true)
 (expect_unit_cost 7.50)
 
 ; List of favorite kinds.
-((favorites)
- "cheddar" "caramel" "butter")
+(favorites (())
+ cheddar caramel butter
+)
 
 ; In case of no popcorn.
 (alternative
-  (name "hot dog")
-  (amount 2))
+ (name "hot dog")
+ (amount 2)
+)

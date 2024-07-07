@@ -9,6 +9,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
 
+    name: ${{ matrix.platform }}
     runs-on: ${{ matrix.platform }}
 
     steps:
@@ -22,7 +23,7 @@ jobs:
     - name: Bazel Setup
       uses: jwlawson/actions-setup-bazel@v2
       with:
-        bazel-version: 'latest'
+        bazel-version: latest
 
     - name: Bazel Version
       run: bazel --version
@@ -51,11 +52,28 @@ jobs:
           !bazel-bin*/**/*.runfiles*
 
 
+  test_with_old_bazel:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Bazel Setup
+      uses: jwlawson/actions-setup-bazel@v2
+      with:
+        bazel-version: "5.4.1"
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Prepare
+      run: touch WORKSPACE
+    - name: Test
+      run: >
+        bazel test
+        --check_direct_dependencies=error
+        --experimental_enable_bzlmod
+        --ignore_dev_dependency
+        -- //...
+
+
   coverage:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
 
     steps:
     - name: Cache Setup
@@ -68,7 +86,7 @@ jobs:
     - name: Bazel Setup
       uses: jwlawson/actions-setup-bazel@v2
       with:
-        bazel-version: 'latest'
+        bazel-version: latest
 
     - name: Checkout
       uses: actions/checkout@v4

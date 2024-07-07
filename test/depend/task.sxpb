@@ -1,9 +1,10 @@
 (shopping_list
-  (grocery_list
-    ((items)
-     (()
-      (name "beer")
-      (amount 99))
-    )
+ (grocery_list
+  (items (())
+   (()
+    (name beer)
+    (amount 99)
+   )
   )
+ )
 )

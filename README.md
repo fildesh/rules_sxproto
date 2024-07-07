@@ -49,18 +49,19 @@ Since each field of that message is an S-expression itself, there's no ambiguity
 
 **Array fields.**
 Rather than holding just one value of a certain type, a repeated field holds an array of such values.
-Conceptually, an array is a funny message with no field names, so we wrap the name of the "funny message" field with parentheses and use an empty S-expression `()` in place of each element's nonexistent field name.
-For simplicity, the "nonexistent field name" part is omitted for repeated scalars.
+Conceptually, an array is a funny message with no field names, so we put `(())` where the first field would be.
+For message elements, we put an empty S-expression `()` where the name would be.
 ```lisp
 ; An array of integers.
-((my_integers) 1 2 3)
+(my_integers (()) 1 2 3)
 
 ; An array of strings.
-((my_strings) "yo" "howdy" "sup")
+(my_strings (()) "yo" "howdy" "sup")
 
 ; An array of messages.
-((my_messages)
+(my_messages (())
  (() (i 5))
- (())
- (() (i 5) (f 5.5) (s "hello")))
+ ()
+ (() (i 5) (f 5.5) (s "hello"))
+)
 ```

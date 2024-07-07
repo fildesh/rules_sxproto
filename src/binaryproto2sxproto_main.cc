@@ -23,9 +23,9 @@ write_message_to_sxproto_ostream(
   reflection->ListFields(message, &fields);
 
   for (const FieldDescriptor* field : fields) {
-    out << '(';
+    out << '(' << field->name() << ' ';
     if (field->is_repeated()) {
-      out << '(' << field->name() << ')';
+      out << "(())";
       int n = reflection->FieldSize(message, field);
 
       if (field->type() == FieldDescriptor::TYPE_MESSAGE) {
@@ -42,12 +42,14 @@ write_message_to_sxproto_ostream(
           if (i > 0) {out << ' ';}
           std::string s;
           TextFormat::PrintFieldValueToString(message, field, i, &s);
+          if (field->type() == FieldDescriptor::TYPE_BOOL) {
+            out << '+';
+          }
           out << s;
         }
       }
     }
     else {
-      out << field->name() << ' ';
       if (field->type() == FieldDescriptor::TYPE_MESSAGE) {
         const Message& submessage = reflection->GetMessage(message, field);
         const bool good = write_message_to_sxproto_ostream(out, submessage);
@@ -56,6 +58,9 @@ write_message_to_sxproto_ostream(
       else {
         std::string s;
         TextFormat::PrintFieldValueToString(message, field, -1, &s);
+        if (field->type() == FieldDescriptor::TYPE_BOOL) {
+          out << '+';
+        }
         out << s;
       }
     }

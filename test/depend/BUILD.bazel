@@ -1,42 +1,42 @@
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("//sxproto:defs.bzl", "sxproto_data", "protobuf_equality_test")
+load("//sxproto:defs.bzl", "protobuf_equality_test", "sxproto_data")
 
 proto_library(
     name = "shopping_proto",
+    testonly = True,
     srcs = ["shopping.proto"],
     deps = ["//example:grocery_proto"],
-    testonly = 1,
 )
 
 cc_proto_library(
     name = "shopping_cc_proto",
+    testonly = True,
     deps = [":shopping_proto"],
-    testonly = 1,
 )
 
 sxproto_data(
     name = "shopping_data",
+    testonly = True,
     src = "shopping.sxpb",
     out_textproto = "shopping_data.txtpb",
     proto_deps = [":shopping_proto"],
     proto_message = "sxproto.test.depend.ShoppingList",
-    testonly = 1,
 )
 
 cc_test(
     name = "shopping_expect_test",
-    srcs = ["shopping_expect_test.cc"],
-    deps = [":shopping_cc_proto"],
-    data = [":shopping_data"],
-    args = ["$(location :shopping_data)"],
     size = "small",
+    srcs = ["shopping_expect_test.cc"],
+    args = ["$(location :shopping_data)"],
+    data = [":shopping_data"],
+    deps = [":shopping_cc_proto"],
 )
 
 protobuf_equality_test(
     name = "shopping_textproto_equality_test",
     srcs = [
-        "shopping_data.txtpb",
         "shopping_data",
+        "shopping_data.txtpb",
     ],
     proto_deps = [":shopping_proto"],
     proto_message = "sxproto.test.depend.ShoppingList",
@@ -44,40 +44,40 @@ protobuf_equality_test(
 
 proto_library(
     name = "task_proto",
+    testonly = True,
     srcs = ["task.proto"],
     deps = [":shopping_proto"],
-    testonly = 1,
 )
 
 sxproto_data(
     name = "task_data",
+    testonly = True,
     src = "task.sxpb",
     out_json = "task_data.json",
     proto_deps = [":task_proto"],
     proto_message = "sxproto.test.depend.TaskList",
-    testonly = 1,
 )
 
 cc_proto_library(
     name = "task_cc_proto",
+    testonly = True,
     deps = [":task_proto"],
-    testonly = 1,
 )
 
 cc_test(
     name = "task_expect_test",
-    srcs = ["task_expect_test.cc"],
-    deps = [":task_cc_proto"],
-    data = [":task_data"],
-    args = ["$(location :task_data)"],
     size = "small",
+    srcs = ["task_expect_test.cc"],
+    args = ["$(location :task_data)"],
+    data = [":task_data"],
+    deps = [":task_cc_proto"],
 )
 
 protobuf_equality_test(
     name = "task_json_equality_test",
     srcs = [
-        "task_data.json",
         "task_data",
+        "task_data.json",
     ],
     proto_deps = [":task_proto"],
     proto_message = "sxproto.test.depend.TaskList",

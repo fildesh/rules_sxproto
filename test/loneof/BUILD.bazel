@@ -1,24 +1,24 @@
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load(
     "//sxproto:defs.bzl",
-    "sxproto_data",
     "protobuf_equality_test",
+    "sxproto_data",
 )
 
 proto_library(
     name = "travel_proto",
+    testonly = True,
     srcs = ["travel.proto"],
-    testonly = 1,
 )
 
 sxproto_data(
     name = "travel_sxproto_data",
+    testonly = True,
     src = "travel.sxpb",
     out_json = "travel_sxproto_data.json",
     out_textproto = "travel_sxproto_data.txtpb",
     proto_deps = [":travel_proto"],
     proto_message = "sxproto.test.loneof.Travel",
-    testonly = 1,
 )
 
 protobuf_equality_test(

@@ -1,5 +1,5 @@
-load("//sxproto:defs.bzl", "sxproto_data")
 load("@rules_proto//proto:defs.bzl", "proto_library")
+load("//sxproto:defs.bzl", "sxproto_data")
 
 package(default_visibility = [
     "//test:__subpackages__",
@@ -7,42 +7,51 @@ package(default_visibility = [
 
 proto_library(
     name = "intro_proto",
+    testonly = True,
     srcs = ["intro.proto"],
 )
 
 sxproto_data(
     name = "intro_1_scalar",
+    testonly = True,
     src = "intro_1_scalar.sxpb",
     proto_deps = ["intro_proto"],
     proto_message = "IntroMessage",
 )
+
 sxproto_data(
     name = "intro_2_message",
+    testonly = True,
     src = "intro_2_message.sxpb",
     proto_deps = ["intro_proto"],
     proto_message = "IntroMessage",
 )
+
 sxproto_data(
     name = "intro_3_empty_message",
+    testonly = True,
     src = "intro_3_empty_message.sxpb",
     proto_deps = ["intro_proto"],
     proto_message = "IntroMessage",
 )
+
 sxproto_data(
     name = "intro_5_array",
+    testonly = True,
     src = "intro_5_array.sxpb",
     proto_deps = ["intro_proto"],
     proto_message = "IntroMessage",
 )
 
-
 proto_library(
     name = "grocery_proto",
+    testonly = True,
     srcs = ["grocery.proto"],
 )
 
 sxproto_data(
     name = "popcorn_data",
+    testonly = True,
     src = "popcorn.sxpb",
     proto_deps = ["grocery_proto"],
     proto_message = "GroceryListItem",
@@ -50,10 +59,11 @@ sxproto_data(
 
 sxproto_data(
     name = "sauces_data",
+    testonly = True,
     src = "sauces.sxpb",
-    out_textproto = "sauces_data.txtpb",
     out_json = "sauces_data.json",
     out_json_camelcase = "sauces_data_camelcase.json",
+    out_textproto = "sauces_data.txtpb",
     proto_deps = ["grocery_proto"],
     proto_message = "GroceryList",
 )

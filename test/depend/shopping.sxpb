@@ -1,6 +1,6 @@
 (grocery_list
   (budget 10)
-  ((items)
+  (items (())
    (()
     (name "jar of olives")
     (amount 1))

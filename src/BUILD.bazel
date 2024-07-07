@@ -62,8 +62,6 @@ cc_binary(
 
 cc_binary(
     name = "diffprotobuf",
-    srcs = [
-        "diffprotobuf.cc",
-    ],
+    srcs = ["diffprotobuf.cc"],
     deps = [":protobuf_transcode_lib"],
 )

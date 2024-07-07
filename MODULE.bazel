@@ -4,13 +4,13 @@ module(
     compatibility_level = 1,
 )
 
-bazel_dep(name = "bazel_skylib", version = "1.2.0")
+bazel_dep(name = "bazel_skylib", version = "1.0.3")
 bazel_dep(name = "fildesh", version = "0.1.9")
 bazel_dep(name = "protobuf", version = "3.19.6")
 bazel_dep(name = "rules_proto", version = "4.0.0")
 
 git_override(
     module_name = "fildesh",
-    remote = "https://github.com/grencez/fildesh.git",
-    commit="11ff65ed78103bc1b1caefb1deb8fa42110eea08",
+    commit = "e9421ebbb546cf38bf2051d02fdc38dcf71f8216",
+    remote = "https://github.com/fildesh/fildesh.git",
 )

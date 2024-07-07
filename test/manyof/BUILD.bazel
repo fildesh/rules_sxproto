@@ -2,43 +2,47 @@ load("@fildesh//tool/bazel:cmptxt_test.bzl", "cmptxt_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load(
     "//sxproto:defs.bzl",
-    "sxproto_data", "data_sxproto",
-    "json_data", "data_json", "data_json_camelcase",
-    "data_textproto", "textproto_data",
+    "data_json",
+    "data_json_camelcase",
+    "data_sxproto",
+    "data_textproto",
+    "json_data",
     "protobuf_equality_test",
+    "sxproto_data",
+    "textproto_data",
 )
 
 proto_library(
     name = "boolexpr_proto",
+    testonly = True,
     srcs = ["boolexpr.proto"],
-    testonly = 1,
 )
 
 sxproto_data(
     name = "boolexpr_sxproto_data",
+    testonly = True,
     src = "boolexpr.sxpb",
     out_json = "boolexpr_sxproto_data.json",
     out_textproto = "boolexpr_sxproto_data.txtpb",
     out_yaml = "boolexpr_sxproto_data.yaml",
     proto_deps = [":boolexpr_proto"],
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
-    testonly = 1,
 )
 
 textproto_data(
     name = "boolexpr_textproto_data",
+    testonly = True,
     src = "boolexpr.txtpb",
     proto_deps = [":boolexpr_proto"],
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
-    testonly = 1,
 )
 
 json_data(
     name = "boolexpr_json_data",
+    testonly = True,
     src = "boolexpr.json",
     proto_deps = [":boolexpr_proto"],
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
-    testonly = 1,
 )
 
 protobuf_equality_test(
@@ -71,29 +75,28 @@ protobuf_equality_test(
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
 )
 
-
 data_sxproto(
     name = "boolexpr_data_sxproto",
+    testonly = True,
     src = ":boolexpr_sxproto_data",
     proto_deps = [":boolexpr_proto"],
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
-    testonly = 1,
 )
 
 data_textproto(
     name = "boolexpr_data_textproto",
+    testonly = True,
     src = ":boolexpr_sxproto_data",
     proto_deps = [":boolexpr_proto"],
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
-    testonly = 1,
 )
 
 data_json(
     name = "boolexpr_data_json",
+    testonly = True,
     src = ":boolexpr_sxproto_data",
     proto_deps = [":boolexpr_proto"],
     proto_message = "sxproto.test.manyof.BooleanExpressionList",
-    testonly = 1,
 )
 
 protobuf_equality_test(
@@ -129,7 +132,7 @@ protobuf_equality_test(
 cmptxt_test(
     name = "boolexpr_data_yaml_equality_test",
     srcs = [
-        ":boolexpr.yaml",
         "boolexpr_sxproto_data.yaml",
+        ":boolexpr.yaml",
     ],
 )
