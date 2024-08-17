@@ -1,8 +1,9 @@
 
-(: json Filename .self.opt.json_file)
+(: json Filepath .self.opt.json_file)
 
-|< zec / / $(XOF json)
+|< splice / / $(XOF json)
 |- replace_string expect_unit_cost FOUND_SNAKE_CASE
-|> cmp $(XOF json) $(O? status)
+|- cmp $(XOF json) $(O? status)
+|> stdout
 
 expect_failure -x? $(XF status)

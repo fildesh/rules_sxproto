@@ -1,5 +1,5 @@
 
-(: result Filename .self.opt.result_file)
+(: result Filepath .self.opt.result_file)
 
 $(O? status) cmp $(XOF result)
 expect_failure -x? $(XF status)

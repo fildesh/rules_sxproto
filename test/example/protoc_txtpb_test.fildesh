@@ -1,9 +1,9 @@
 
-(: binpb Filename .self.opt.binpb_file)
-(: txtpb Filename .self.opt.txtpb_file)
-(: descriptor_set Filename .self.opt.descriptor_set_file)
+(: binpb Filepath .self.opt.binpb_file)
+(: txtpb Filepath .self.opt.txtpb_file)
+(: descriptor_set Filepath .self.opt.descriptor_set_file)
 
-|< zec / / $(XOF txtpb)
+|< splice / / $(XOF txtpb)
 |- protoc --descriptor_set_in $(XOF descriptor_set) --encode GroceryList
 |- diffprotobuf $(XOF binpb) - GroceryList $(XOF descriptor_set)
 |> stdout
