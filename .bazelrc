@@ -1,6 +1,3 @@
-# Bzlmod for dependencies.
-common --registry=https://raw.githubusercontent.com/rendezqueue/rendezqueue_bazel_registry/trunk
-common --registry=https://raw.githubusercontent.com/bazelbuild/bazel-central-registry/main
 
 # --enable_runfiles is for Windows tests to access data deps.
 # Other platforms have it on by default; no harm making it explicit.
